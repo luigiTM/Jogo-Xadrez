@@ -10,6 +10,11 @@ public class Posicao {
 		this.coluna = coluna;
 	}
 
+	public void definirValores(Integer linha, Integer coluna) {
+		this.linha = linha;
+		this.coluna = coluna;
+	}
+
 	public Integer getLinha() {
 		return linha;
 	}

@@ -1,8 +1,8 @@
 package xadrez;
 
+import tabuleiro.Peca;
 import tabuleiro.Posicao;
 import tabuleiro.Tabuleiro;
-import xadrez.pecas.Rei;
 import xadrez.pecas.Torre;
 
 public class PartidaXadrez {
@@ -24,9 +24,50 @@ public class PartidaXadrez {
 		return matriz;
 	}
 
+	public boolean[][] movimentosPossiveis(PosicaoXadrez origem) {
+		Posicao posicaoOrigem = origem.paraPosicao();
+		validarPosicaoOrigem(posicaoOrigem);
+		return tabuleiro.peca(posicaoOrigem).movimentosPossiveis();
+	}
+
+	private void validarPosicaoOrigem(Posicao posicao) {
+		if (!tabuleiro.temPeca(posicao)) {
+			throw new XadrexException("Não existe peça nessa posição");
+		}
+		if (!tabuleiro.peca(posicao).temMovimentoPossivel()) {
+			throw new XadrexException("Não existe movimento possível para essa peça");
+		}
+	}
+
+	private void validarPosicaoDestino(Posicao origem, Posicao destino) {
+		if (!tabuleiro.peca(origem).movimentoPossivel(destino)) {
+			throw new XadrexException("Esse movimento não é válido");
+		}
+	}
+
+	private Peca fazerMovimento(Posicao origem, Posicao destino) {
+		Peca peca = tabuleiro.removerPeca(origem);
+		Peca pecaCapturada = tabuleiro.removerPeca(destino);
+		tabuleiro.colocarPeca(peca, destino);
+		return pecaCapturada;
+	}
+
+	public PecaXadrez moverPeca(PosicaoXadrez posicaoOrigem, PosicaoXadrez posicaoDestino) {
+		Posicao origem = posicaoOrigem.paraPosicao();
+		Posicao destino = posicaoDestino.paraPosicao();
+		validarPosicaoOrigem(origem);
+		validarPosicaoDestino(origem, destino);
+		Peca pecaCapturada = fazerMovimento(origem, destino);
+		return (PecaXadrez) pecaCapturada;
+
+	}
+
+	private void colocarNovaPeca(Character coluna, Integer linha, PecaXadrez peca) {
+		tabuleiro.colocarPeca(peca, new PosicaoXadrez(coluna, linha).paraPosicao());
+	}
+
 	private void setupInicial() {
-		tabuleiro.colocarPeca(new Torre(tabuleiro, Cor.BRANCO), new Posicao(2, 1));
-		tabuleiro.colocarPeca(new Rei(tabuleiro, Cor.PRETO), new Posicao(0, 4));
+		colocarNovaPeca('b', 6, new Torre(tabuleiro, Cor.BRANCO));
 	}
 
 }
