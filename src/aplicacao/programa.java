@@ -38,6 +38,9 @@ public class Programa {
 				if (pecaCapturada != null) {
 					capturadas.add(pecaCapturada);
 				}
+				if (partidaXadrez.getPromovido() != null) {
+					System.out.println("Para qual peça deseja promover?(B/C/T/Q)");
+				}
 			} catch (XadrexException erroXadrez) {
 				System.out.println(erroXadrez.getMessage());
 				scanner.nextLine();
