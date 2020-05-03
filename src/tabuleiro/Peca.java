@@ -24,7 +24,9 @@ public abstract class Peca {
 		boolean[][] matrizMovimentos = movimentosPossiveis();
 		for (int i = 0; i < matrizMovimentos.length; i++) {
 			for (int j = 0; j < matrizMovimentos.length; j++) {
-				return true;
+				if (matrizMovimentos[i][j]) {
+					return true;
+				}
 			}
 		}
 		return false;
