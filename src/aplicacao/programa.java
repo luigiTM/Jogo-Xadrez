@@ -40,6 +40,12 @@ public class Programa {
 				}
 				if (partidaXadrez.getPromovido() != null) {
 					System.out.println("Para qual peça deseja promover?(B/C/T/Q)");
+					String tipo = scanner.nextLine().toUpperCase();
+					while (!tipo.equals("B") && !tipo.equals("C") && !tipo.equals("T") && !tipo.equals("Q")) {
+						System.out.println("Valor inválido! Para qual peça deseja promover?(B/C/T/Q)");
+						tipo = scanner.nextLine().toUpperCase();
+					}
+					partidaXadrez.trocarPecaPromovida(tipo);
 				}
 			} catch (XadrexException erroXadrez) {
 				System.out.println(erroXadrez.getMessage());
